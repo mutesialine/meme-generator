@@ -1,70 +1,68 @@
-import React from "react"
-export default function Meme(){
-  const [meme ,setMeme]=React.useState({
-    firstText:"",
-    secondText:"",
-    randomImage:"http://i.imgflip.com/1bij.jpg"
-  })
+import React from "react";
+import { useState,useEffect } from "react";
+export default function Meme (){
 
-  const [allMemes,setAllMemes]=React.useState([])
-React.useEffect(()=>{
-fetch("https://api.imgflip.com/get_memes")
-    .then(res=>res.json())
-    .then(data=>setAllMemes(data.data.memes))
-},[])
+  const [memeText, setMemeText] = useState({
+    firstText: "",
+    secondText: "",
+    randomImage: "http://i.imgflip.com/1bij.jpg",
+  });
 
-  function getAllMemes(){
-    
-    const randomNumber = Math.floor(Math.random() * allMemes.length);
-    const url =allMemes[randomNumber].url
-    setMeme(prev=>({...prev ,randomImage:url}))
-  }
   function handleChange(event){
-    const{name, value}=event.target
-    setMeme(prev =>({
-      ...prev, [name]:value}))
+    const {name,value}= event.target
+    setMemeText(prev => ({...prev, [name]:value}))
   }
-  // function handleSubmit(event){
-  //  event.preventDefault()
-  // }
 
- 
+  const[allMeme, setAllMeme]=useState([])
+  function getAllMemes(){
+    const randomNumber = Math.floor(Math.random() * allMeme.length);
+    const url=allMeme[randomNumber].url
+    setMemeText(prev =>({...prev ,randomImage:url}))
+  }
+useEffect(()=>{
+  fetch("https://api.imgflip.com/get_memes")
+   .then(res=>res.json())
+   .then(data=>{
+    setAllMeme(data.data.memes)
+  })
+},[memeText.randomImage])
+console.log(getAllMemes)
   return (
-    <main className="py-8 shadow-md">
-      <div className="grid grid-col-2 justify-items-center place-content-center space-y-4  space-x-4">
+    <main className="shadow-md ">
+      <div className="grid grid-col-2  place-content-center space-y-4  space-x-4 py-8">
         <input
-          className="py-2 px-2 col-span-1 border border-gray-400 mt-4 rounded-md"
+          className="py-2 px-2 col-span-1 border border-gray-400 mt-4 rounded-md outline-none"
           type="text"
-          placeholder="toptext"
+          placeholder="first meme text"
           name="firstText"
-          value={meme.firstText}
+          value={memeText.firstText}
           onChange={handleChange}
         />
         <input
+          className="py-2 px-2 col-span-1 border border-gray-400 mt-4 rounded-md outline-none"
           type="text"
-          className="py-2 px-2 col-span-1 border border-gray-400 mt-4 rounded-md "
-          placeholder="bottom text"
+          placeholder="second meme text"
           name="secondText"
-          value={meme.secondText}
+          value={memeText.secondText}
           onChange={handleChange}
         />
-
         <button
           onClick={getAllMemes}
-          className="px-2 py-2 w-full rounded-md col-span-2 bg-[#781e96] text-white"
+          className="col-span-2 bg-purple text-white w-full py-2 rounded-md "
         >
-          Generate new meme Image
+          Get new Meme image
         </button>
-
       </div>
-      <div className="relative text-white pt-4">
+      <div className="text-4xl leading-10 text-center relative text-white font-normal">
+        <p className="absolute top-6  left-16 text-center z-50 pt-4">
+          {memeText.firstText}
+        </p>
+        <p className="absolute bottom-16 left-16 z-50">{memeText.secondText}</p>
         <img
-          src={meme.randomImage}
-          alt="meme image"
-          className="min-w-[400px] relative px-8"
+          className="min-w-[450px] px-8 pb-8 relative"
+          src={memeText.randomImage}
+          alt="meme"
         />
-        <p className="text-4xl leading-10 text-center font-bold absolute z-50 top-10 left-24 px-12">{meme.firstText}</p>
-        <p className="text-4xl leading-10  text-center font-bold absolute z-50 bottom-16 left-24 px-12">{meme.secondText}</p>
       </div>
     </main>
   );
