@@ -26,7 +26,6 @@ useEffect(()=>{
     setAllMeme(data.data.memes)
   })
 },[memeText.randomImage])
-console.log(getAllMemes)
   return (
     <main className="shadow-md ">
       <div className="grid grid-col-2  place-content-center space-y-4  space-x-4 py-8">
@@ -54,10 +53,10 @@ console.log(getAllMemes)
         </button>
       </div>
       <div className="text-4xl leading-10 text-center relative text-white font-normal">
-        <p className="absolute top-6  left-16 text-center z-50 pt-4">
+        <p className="absolute top-6  left-40 text-center z-50 pt-4">
           {memeText.firstText}
         </p>
-        <p className="absolute bottom-16 left-16 z-50">{memeText.secondText}</p>
+        <p className="absolute bottom-16 left-40 z-50">{memeText.secondText}</p>
         <img
           className="min-w-[450px] px-8 pb-8 relative"
           src={memeText.randomImage}
