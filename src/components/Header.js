@@ -6,7 +6,7 @@ export default function Header(){
         <p className="text-xl font-bold">Meme generator</p>
       </div>
 
-      <p className=" text-sm">React course-Project 3</p>
+      <p className="text-sm">React course-Project 3</p>
     </div>
   );
 }
